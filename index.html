@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>YourCode – Boutique Language & Tech Studio</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background-color: #2b2b2b;
+      color: #ffffff;
+      line-height: 1.6;
+    }
+
+    /* Header */
+    header {
+      background-color: #2b2b2b;
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #00bcd4;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #00bcd4;
+      text-decoration: none;
+      letter-spacing: -1px;
+      position: relative;
+    }
+
+    .logo::after {
+      content: '_';
+      animation: blink 1s infinite;
+      color: #00ff41;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    .logo-badge {
+      background-color: #00bcd4;
+      color: #2b2b2b;
+      padding: 0.5rem 1rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border-radius: 4px;
+      margin-left: 1rem;
+    }
+
+    /* Navigation */
+    nav {
+      background-color: #333333;
+      padding: 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .nav-item {
+      background-color: transparent;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 1.5rem 2rem;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 188, 212, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .nav-item:hover::before {
+      left: 100%;
+    }
+
+    .nav-item:hover {
+      color: #00bcd4;
+      border-bottom-color: #00bcd4;
+      background-color: rgba(0, 188, 212, 0.1);
+    }
+
+    .nav-item.active {
+      color: #00bcd4;
+      border-bottom-color: #00bcd4;
+      background-color: rgba(0, 188, 212, 0.1);
+    }
+
+    /* Main Content */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      min-height: 70vh;
+    }
+
+    .page-content {
+      display: none;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .page-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .page-title {
+      font-size: 3rem;
+      color: #00bcd4;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .page-subtitle {
+      font-size: 1.2rem;
+      color: #cccccc;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Home Page Styles */
+    .hero {
+      text-align: center;
+      padding: 4rem 0;
+      background: linear-gradient(135deg, rgba(0, 188, 212, 0.1), transparent);
+      border-radius: 12px;
+      margin-bottom: 3rem;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      color: #00bcd4;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      color: #cccccc;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+    }
+
+    .cta-button {
+      background: linear-gradient(135deg, #00bcd4, #00acc1);
+      color: #1a1a1a;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      display: inline-block;
+      margin-top: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .cta-button:hover::before {
+      left: 100%;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 188, 212, 0.4);
+      background: linear-gradient(135deg, #00acc1, #0097a7);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .feature-card {
+      background: linear-gradient(135deg, #333333, #2a2a2a);
+      padding: 2rem;
+      border-radius: 8px;
+      border-left: 4px solid #00bcd4;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: linear-gradient(45deg, transparent 30%, rgba(0, 188, 212, 0.05) 50%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-left-color: #00ff41;
+      box-shadow: 0 10px 30px rgba(0, 188, 212, 0.2);
+    }
+
+    .feature-card h3 {
+      color: #00bcd4;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Language Page Styles */
+    .language-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .language-card {
+      background-color: #333333;
+      border-radius: 12px;
+      padding: 2rem;
+      border: 2px solid #444444;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .language-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #00bcd4, #00acc1);
+    }
+
+    .language-card:hover {
+      border-color: #00bcd4;
+      transform: translateY(-8px);
+      box-shadow: 0 15px 35px rgba(0, 188, 212, 0.2);
+    }
+
+    .language-flag {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .language-card h3 {
+      color: #00bcd4;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .language-card p {
+      color: #cccccc;
+      margin-bottom: 1rem;
+    }
+
+    .language-features {
+      list-style: none;
+      margin-top: 1rem;
+    }
+
+    .language-features li {
+      color: #aaaaaa;
+      margin-bottom: 0.5rem;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .language-features li::before {
+      content: '▶';
+      color: #00bcd4;
+      position: absolute;
+      left: 0;
+    }
+
+    /* Services Page Styles */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .service-card {
+      background: linear-gradient(135deg, #333333, #2e2e2e);
+      padding: 2rem;
+      border-radius: 12px;
+      border: 1px solid #444444;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .service-card:hover {
+      border-color: #00bcd4;
+      transform: scale(1.05);
+      box-shadow: 0 10px 30px rgba(0, 188, 212, 0.2);
+    }
+
+    .service-icon {
+      font-size: 3rem;
+      color: #00bcd4;
+      margin-bottom: 1rem;
+    }
+
+    .service-card h3 {
+      color: #ffffff;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Clients Page Styles */
+    .clients-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .client-card {
+      background-color: #333333;
+      padding: 2rem;
+      border-radius: 12px;
+      border-left: 6px solid #00bcd4;
+      transition: all 0.3s ease;
+    }
+
+    .client-card:hover {
+      transform: translateX(10px);
+      box-shadow: -5px 5px 20px rgba(0, 188, 212, 0.2);
+    }
+
+    .client-logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #00bcd4;
+      margin-bottom: 1rem;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #1a1a1a;
+      color: #888888;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 4rem;
+      border-top: 2px solid #00bcd4;
+    }
+
+    /* Terminal-style text */
+    .terminal-text {
+      background-color: #1a1a1a;
+      color: #00ff41;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      margin: 2rem auto;
+      max-width: 500px;
+      border: 1px solid #333;
+      font-size: 0.9rem;
+      text-align: left;
+    }
+
+    .prompt {
+      color: #00bcd4;
+      font-weight: 700;
+    }
+
+    .command {
+      color: #ffffff;
+      margin-left: 0.5rem;
+    }
+
+    /* Matrix-style background animation */
+    .matrix-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -2;
+      opacity: 0.03;
+      pointer-events: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: #00bcd4;
+      overflow: hidden;
+    }
+
+    .matrix-column {
+      position: absolute;
+      top: -100px;
+      animation: matrix-fall linear infinite;
+    }
+
+    @keyframes matrix-fall {
+      0% { top: -100px; }
+      100% { top: 100vh; }
+    }
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .logo-badge {
+        margin-left: 0;
+        margin-top: 1rem;
+      }
+
+      .nav-container {
+        flex-direction: column;
+      }
+
+      .nav-item {
+        text-align: center;
+        padding: 1rem;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .page-title {
+        font-size: 2rem;
+      }
+
+      main {
+        padding: 2rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="#" class="logo" onclick="showPage('home')" style="display: flex; align-items: center;">
+    YourCode
+    <span class="logo-badge">&lt;/&gt;</span>
+  </a>
+</header>
+
+<nav>
+  <div class="nav-container">
+    <a href="#" class="nav-item active" onclick="showPage('home')">Home</a>
+    <a href="#" class="nav-item" onclick="showPage('about')">Who We Are</a>
+    <a href="#" class="nav-item" onclick="showPage('languages')">Languages</a>
+    <a href="#" class="nav-item" onclick="showPage('services')">Services</a>
+    <a href="#" class="nav-item" onclick="showPage('clients')">Clients</a>
+    <a href="#" class="nav-item" onclick="showPage('upcoming')">Upcoming</a>
+    <a href="#" class="nav-item" onclick="showPage('contact')">Contact</a>
+  </div>
+</nav>
+
+<main>
+  <!-- HOME PAGE -->
+  <div id="home" class="page-content active">
+    <div class="hero">
+      <h1>YourCode</h1>
+      <p>Code-Driven Linguistics Lab. Where Algorithms Speak Fluently.</p>
+      <div class="terminal-text">
+        <span class="prompt">~/localization$</span> 
+        <span class="command">python deploy_global.py --languages=ar,fa,tr</span>
+      </div>
+      <a href="#" class="cta-button" onclick="showPage('languages')">Initialize Project</a>
+    </div>
+    
+    <div class="features-grid">
+      <div class="feature-card">
+        <h3>🚀 Neural Translation</h3>
+        <p>Our linguists work alongside AI to deliver translations that capture nuance while maintaining computational precision.</p>
+      </div>
+      <div class="feature-card">
+        <h3>⚡ Pythonic Workflows</h3>
+        <p>Clean, readable, and efficient processes that scale from startup MVPs to enterprise-grade localization pipelines.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🔬 Lab-Grade Quality</h3>
+        <p>Every project undergoes rigorous testing protocols. We debug languages like we debug code—systematically and thoroughly.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT PAGE -->
+  <div id="about" class="page-content">
+    <div class="page-header">
+      <h2 class="page-title">Who We Are</h2>
+      <p class="page-subtitle">A boutique collective of native linguists, localization pros, and forward-thinking tech minds</p>
+    </div>
+    
+    <div style="max-width: 800px; margin: 0 auto; font-size: 1.1rem; line-height: 1.8;">
+      <p style="margin-bottom: 2rem;">
+        <strong>YourCode</strong> is more than just a localization studio. We're a carefully curated team of language experts and technology enthusiasts who believe that great communication transcends borders.
+      </p>
+      
+      <p style="margin-bottom: 2rem;">
+        With deep roots in Arabic, Farsi, and Turkish cultures, we bring not just linguistic accuracy, but cultural authenticity to every project. Our approach combines the precision of native speakers with the efficiency of modern technology.
+      </p>
+      
+      <p style="margin-bottom: 2rem;">
+        We're proud to be small, selective, and backed by expert talent. Every word we translate, every line of code we support, reflects our commitment to precision and connection — just like Python's philosophy of beautiful, readable code.
+      </p>
+      
+      <div class="feature-card" style="margin-top: 3rem;">
+        <h3>Our Philosophy</h3>
+        <p>Like Python code, our translations should be clean, readable, and elegant. We believe in the power of simplicity and the beauty of clear communication across cultures.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- LANGUAGES PAGE -->
+  <div id="languages" class="page-content">
+    <div class="page-header">
+      <h2 class="page-title">Languages We Master</h2>
+      <p class="page-subtitle">Native fluency meets professional excellence in three dynamic languages</p>
+    </div>
+    
+    <div class="language-grid">
+      <div class="language-card">
+        <span class="language-flag">🇸🇦</span>
+        <h3>Arabic</h3>
+        <p>From classical Arabic to modern dialects, we navigate the linguistic landscape with native precision and cultural depth.</p>
+        <ul class="language-features">
+          <li>Modern Standard Arabic (MSA)</li>
+          <li>Gulf, Levantine, and Egyptian dialects</li>
+          <li>Right-to-Left (RTL) optimization</li>
+          <li>Cultural adaptation for MENA markets</li>
+          <li>Financial and technical terminology</li>
+        </ul>
+      </div>
+      
+      <div class="language-card">
+        <span class="language-flag">🇮🇷</span>
+        <h3>Farsi (Persian)</h3>
+        <p>Bridging ancient literary traditions with contemporary communication needs across Iran, Afghanistan, and Tajikistan.</p>
+        <ul class="language-features">
+          <li>Iranian Persian (Standard)</li>
+          <li>Dari and Tajik variants</li>
+          <li>Poetry and literary translations</li>
+          <li>Business and technical content</li>
+          <li>Cultural nuance preservation</li>
+        </ul>
+      </div>
+      
+      <div class="language-card">
+        <span class="language-flag">🇹🇷</span>
+        <h3>Turkish</h3>
+        <p>Connecting Europe and Asia through precise, culturally-aware Turkish localization that resonates with local audiences.</p>
+        <ul class="language-features">
+          <li>Istanbul Turkish (Standard)</li>
+          <li>Regional variations awareness</li>
+          <li>EU compliance standards</li>
+          <li>E-commerce optimization</li>
+          <li>Gaming and app localization</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICES PAGE -->
+  <div id="services" class="page-content">
+    <div class="page-header">
+      <h2 class="page-title">What We Do</h2>
+      <p class="page-subtitle">Comprehensive language and technology services tailored for global success</p>
+    </div>
+    
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">📝</div>
+        <h3>Translation & Localization</h3>
+        <p>Professional translation services that preserve meaning, tone, and cultural context across all our supported languages.</p>
+      </div>
+      
+      <div class="service-card">
+        <div class="service-icon">📱</div>
+        <h3>App & Web Localization</h3>
+        <p>Complete digital product localization including UI/UX adaptation, cultural optimization, and technical implementation.</p>
+      </div>
+      
+      <div class="service-card">
+        <div class="service-icon">🔍</div>
+        <h3>Linguistic QA</h3>
+        <p>Thorough quality assurance testing to ensure your localized content meets the highest standards of accuracy and cultural appropriateness.</p>
+      </div>
+      
+      <div class="service-card">
+        <div class="service-icon">⚡</div>
+        <h3>RTL Optimization</h3>
+        <p>Specialized right-to-left language support ensuring your Arabic and Farsi content displays perfectly across all platforms.</p>
+      </div>
+      
+      <div class="service-card">
+        <div class="service-icon">🐍</div>
+        <h3>Python Automation</h3>
+        <p>Custom Python-powered tools and workflows to streamline your localization process and scale efficiently.</p>
+      </div>
+      
+      <div class="service-card">
+        <div class="service-icon">🔧</div>
+        <h3>Custom Integrations</h3>
+        <p>Tailored technical solutions that integrate seamlessly with your existing systems and development workflows.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLIENTS PAGE -->
+  <div id="clients" class="page-content">
+    <div class="page-header">
+      <h2 class="page-title">Trusted Partners</h2>
+      <p class="page-subtitle">We proudly support visionary teams across industries</p>
+    </div>
+    
+    <div class="clients-grid">
+      <div class="client-card">
+        <div class="client-logo">PepsiCo</div>
+        <h3>Global Beverage Leader</h3>
+        <p><strong>Services:</strong> Transcreation & Cultural QA</p>
+        <p>Helping PepsiCo connect with Middle Eastern markets through culturally-aware messaging that resonates with local audiences while maintaining brand consistency.</p>
+      </div>
+      
+      <div class="client-card">
+        <div class="client-logo">Amazon</div>
+        <h3>E-Commerce Giant</h3>
+        <p><strong>Services:</strong> Content and Region QA</p>
+        <p>Supporting Amazon's expansion in MENA markets with comprehensive content review, cultural adaptation, and regional compliance testing.</p>
+      </div>
+      
+      <div class="client-card">
+        <div class="client-logo">Emkan</div>
+        <h3>Digital Innovation</h3>
+        <p><strong>Services:</strong> Full-cycle Arabic Localization</p>
+        <p>Complete Arabic localization services from initial translation through technical implementation and cultural optimization for digital platforms.</p>
+      </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 3rem; padding: 2rem; background-color: #333333; border-radius: 12px;">
+      <h3 style="color: #00bcd4; margin-bottom: 1rem;">Ready to Join Our Client Family?</h3>
+      <p style="margin-bottom: 2rem;">Let's discuss how we can help your business succeed in Arabic, Farsi, and Turkish markets.</p>
+      <a href="#" class="cta-button" onclick="showPage('contact')">Get Started</a>
+    </div>
+  </div>
+
+  <!-- UPCOMING PAGE -->
+  <div id="upcoming" class="page-content">
+    <div class="page-header">
+      <h2 class="page-title">Coming Soon</h2>
+      <p class="page-subtitle">The future of language technology is being written in Python</p>
+    </div>
+    
+    <div style="max-width: 800px; margin: 0 auto;">
+      <div class="feature-card" style="margin-bottom: 2rem; text-align: center; padding: 3rem;">
+        <h3 style="font-size: 2rem; margin-bottom: 2rem;">Programming Services</h3>
+        <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+          Launching soon: Python-powered solutions to help localize, automate, and scale with the elegance of clean code.
+        </p>
+        <p style="margin-bottom: 2rem;">
+          From script-based workflows to custom integrations, YourCode will soon bring together tech and language in one beautifully crafted stack. Think of it as <code style="background-color: #555; padding: 0.2rem 0.5rem; border-radius: 3px; color: #00bcd4;">import linguistics</code> for your global reach.
+        </p>
+      </div>
+      
+      <div class="features-grid">
+        <div class="feature-card">
+          <h3>🔄 Automation Workflows</h3>
+          <p>Python scripts that streamline repetitive localization tasks, from file processing to quality checks.</p>
+        </div>
+        
+        <div class="feature-card">
+          <h3>🔗 API Integrations</h3>
+          <p>Custom connectors for your CMS, development tools, and translation management systems.</p>
+        </div>
+        
+        <div class="feature-card">
+          <h3>📊 Analytics Tools</h3>
+          <p>Data-driven insights into your localization performance and market penetration metrics.</p>
+        </div>
+        
+        <div class="feature-card">
+          <h3>🛠️ Custom Solutions</h3>
+          <p>Bespoke Python applications tailored to your unique localization challenges and workflows.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT PAGE -->
+  <div id="contact" class="page-content">
+    <div class="page-header">
+      <h2 class="page-title">Get In Touch</h2>
+      <p class="page-subtitle">Let's bring your language and code into global sync</p>
+    </div>
+    
+    <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+      <div class="feature-card" style="padding: 3rem; margin-bottom: 2rem;">
+        <h3 style="font-size: 1.5rem; margin-bottom: 2rem;">Ready to Start Your Project?</h3>
+        <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+          Whether you need expert translation, cultural adaptation, or custom Python solutions, we're here to help.
+        </p>
+        
+        <div style="margin: 2rem 0;">
+          <p style="font-size: 1.1rem; margin-bottom: 1rem;">📧 Email us at:</p>
+          <a href="mailto:f69246984@gmail.com" style="color: #00bcd4; font-size: 1.3rem; font-weight: 700; text-decoration: none;">
+            f69246984@gmail.com
+          </a>
+        </div>
+        
+        <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid #444444;">
+          <h4 style="color: #00bcd4; margin-bottom: 1rem;">What to Include in Your Message:</h4>
+          <ul style="text-align: left; max-width: 400px; margin: 0 auto;">
+            <li style="margin-bottom: 0.5rem;">Target languages needed</li>
+            <li style="margin-bottom: 0.5rem;">Project scope and timeline</li>
+            <li style="margin-bottom: 0.5rem;">Content type and volume</li>
+            <li style="margin-bottom: 0.5rem;">Technical requirements</li>
+          </ul>
+        </div>
+      </div>
+      
+      <p style="color: #888888; font-size: 1rem;">
+        We typically respond within 24 hours with a detailed project proposal.
+      </p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2025 YourCode. Built with ❤️ and Pythonic precision.</p>
+</footer>
+
+<script>
+function showPage(pageId) {
+  // Hide all pages
+  const pages = document.querySelectorAll('.page-content');
+  pages.forEach(page => {
+    page.classList.remove('active');
+  });
+  
+  // Show selected page
+  const targetPage = document.getElementById(pageId);
+  if (targetPage) {
+    targetPage.classList.add('active');
+  }
+  
+  // Update navigation
+  const navItems = document.querySelectorAll('.nav-item');
+  navItems.forEach(item => {
+    item.classList.remove('active');
+  });
+  
+  // Find and activate the corresponding nav item
+  const activeNavItem = Array.from(navItems).find(item => 
+    item.textContent.toLowerCase().includes(getNavTextForPage(pageId))
+  );
+  
+  if (activeNavItem) {
+    activeNavItem.classList.add('active');
+  }
+  
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function getNavTextForPage(pageId) {
+  const pageToNav = {
+    'home': 'home',
+    'about': 'who we are',
+    'languages': 'languages',
+    'services': 'services', 
+    'clients': 'clients',
+    'upcoming': 'upcoming',
+    'contact': 'contact'
+  };
+  
+  return pageToNav[pageId] || pageId;
+}
+
+// Handle browser back/forward buttons
+window.addEventListener('popstate', function(event) {
+  if (event.state && event.state.page) {
+    showPage(event.state.page);
+  }
+});
+
+// Add page to history when navigating
+const originalShowPage = showPage;
+showPage = function(pageId) {
+  originalShowPage(pageId);
+  history.pushState({ page: pageId }, '', `#${pageId}`);
+};
+
+// Initialize page based on URL hash
+document.addEventListener('DOMContentLoaded', function() {
+  const hash = window.location.hash.substring(1);
+  if (hash && document.getElementById(hash)) {
+    showPage(hash);
+  }
+});
+</script>
+
+</body>
+</html>
